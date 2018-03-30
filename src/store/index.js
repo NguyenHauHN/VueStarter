@@ -3,23 +3,30 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-const STORAGE_KEY = 'localhost/me';
-
 const store = new Vuex.Store({
   state: {
-    me: window.localStorage.getItem(STORAGE_KEY) ? JSON.parse(window.localStorage.getItem(STORAGE_KEY)) : null
+    count: 0,
+    number: 0,
+    todos: [
+      {id: 1, text: "Todo one", done: true},
+      {id: 2, text: "Todo two", done: true},
+      {id: 3, text: "Todo three", done: false}
+    ]
   },
   mutations: {
-    updateLoggedInUser(state, payload){
-      this.state.me = payload;
-      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload))
+    increments(state, number) {
+      state.count += number;
+    },
+    decrements(state) {
+      state.count--;
     }
   },
   getters: {
-    me: state => state.me
+    doneTodos: state => {
+      return state.todos.filter(todo => todo.done)
+    }
   }
 })
-
 
 
 export default store;
